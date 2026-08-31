@@ -12,18 +12,45 @@ from metpy.interpolate import cross_section
 from pyproj import Geod
 
 # =========================
+# PROJECT PATHS
+# =========================
+PROJECT_DIR = Path(__file__).resolve().parents[2]
+DATA_DIR = Path(os.environ.get("COLD_SURGE_BASEDIR", PROJECT_DIR / "data")).resolve()
+FIG_ROOT = Path(os.environ.get("COLD_SURGE_FIGDIR", PROJECT_DIR / "figs")).resolve()
+
+# =========================
+# EVENT CONFIGURATION
+# =========================
+EVENT_TAG = os.environ.get("EVENT_TAG", "202307_20230715_20230719")
+EVENT_MONTH = EVENT_TAG.split("_")[0]
+
+EVENT_DIR = (
+    DATA_DIR
+    / "events_small_dense"
+    / EVENT_MONTH
+    / EVENT_TAG
+)
+
+PLEV_GRIB = EVENT_DIR / f"eventsS_pressure_{EVENT_TAG}.grib"
+SFC_GRIB = EVENT_DIR / f"eventsS_surface_{EVENT_TAG}.grib"
+
+FIG_DIR = FIG_ROOT / "era5"
+FIG_DIR.mkdir(parents=True, exist_ok=True)
+
+
+
+# =========================
 # PATHS (caso 202307)
 # =========================
-BASE = str(Path(__file__).resolve().parents[2])
-KML_DIR = os.path.join(BASE, "scripts", "download_and_process", "poligons")
-KML_PATH = os.path.join(KML_DIR, "transecta.kml")  # o Poligono.kml
 
-DATA_DIR = os.path.join(BASE, "data", "events_small_dense", "202307", "202307_20230715_20230719")
-GRIB = os.path.join(DATA_DIR, "eventsS_pressure_202307_20230715_20230719.grib")
 
-FIG_DIR = os.path.join(BASE, "figs", "era5")
-os.makedirs(FIG_DIR, exist_ok=True)
-OUT_PNG = os.path.join(FIG_DIR, "xsec_theta_ualong_w_202307.png")
+KML_PATH = PROJECT_DIR / "config" / "transecta.kml"
+
+GRIB = PLEV_GRIB
+
+
+
+OUT_PNG = FIG_DIR / "xsec_theta_ualong_w.png"
 
 # =========================
 # CONFIG

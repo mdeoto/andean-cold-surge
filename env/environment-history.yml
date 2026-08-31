@@ -1,0 +1,45 @@
+name: newocean
+channels:
+  - conda-forge
+dependencies:
+  - cdo
+  - s3fs
+  - ecmwf-api-client
+  - scikit-image
+  - xarray
+  - cfgrib
+  - cartopy
+  - netcdf4
+  - python=3.10
+  - geopandas
+  - matplotlib=3.5.1
+  - python-gitlab
+  - git
+  - cdsapi
+  - selenium
+  - lxml
+  - r-devtools
+  - r-rgdal
+  - r-raster
+  - r-fields
+  - geopy
+  - rioxarray
+  - sentinelsat
+  - xarray-datatree
+  - openpyxl
+  - pillow
+  - python-awips
+  - metpy
+  - dask
+  - dask-core
+  - dask-geopandas
+  - pygeos
+  - pycwt
+  - conda-forge::xoak
+  - pys2index
+  - scikit-learn
+  - xhistogram
+  - anaconda::beautifulsoup4
+  - contextily
+  - ffmpeg
+  - h5py

@@ -9,11 +9,40 @@ import matplotlib.colors as mcolors
 import cfgrib  # engine para xarray
 
 # =========================
+# PROJECT PATHS
+# =========================
+PROJECT_DIR = Path(__file__).resolve().parents[2]
+DATA_DIR = Path(os.environ.get("COLD_SURGE_BASEDIR", PROJECT_DIR / "data")).resolve()
+FIG_ROOT = Path(os.environ.get("COLD_SURGE_FIGDIR", PROJECT_DIR / "figs")).resolve()
+
+# =========================
+# EVENT CONFIGURATION
+# =========================
+EVENT_TAG = os.environ.get("EVENT_TAG", "202307_20230715_20230719")
+EVENT_MONTH = EVENT_TAG.split("_")[0]
+
+EVENT_DIR = (
+    DATA_DIR
+    / "events_small_dense"
+    / EVENT_MONTH
+    / EVENT_TAG
+)
+
+PLEV_GRIB = EVENT_DIR / f"eventsS_pressure_{EVENT_TAG}.grib"
+SFC_GRIB = EVENT_DIR / f"eventsS_surface_{EVENT_TAG}.grib"
+
+FIG_DIR = FIG_ROOT / "era5"
+FIG_DIR.mkdir(parents=True, exist_ok=True)
+GRIB = PLEV_GRIB
+OUT_PNG = FIG_DIR / "xsec_lon-69p5_lat-height_theta_v_w.png"
+
+
+
+# =========================
 # PATHS / I/O
 # =========================
-GRIB = str(Path(__file__).resolve().parents[2] / "data") + "/events_small_dense/202307/202307_20230715_20230719/eventsS_pressure_202307_20230715_20230719.grib"
-OUT_PNG = "/home/mdeoto/investigacion/mountain_ridge/figs/era5/xsec_lon-69p5_lat-height_theta_v_w.png"
-os.makedirs(os.path.dirname(OUT_PNG), exist_ok=True)
+
+
 
 # =========================
 # CONFIG

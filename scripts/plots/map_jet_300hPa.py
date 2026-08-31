@@ -10,17 +10,46 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
 # =========================
+# PROJECT PATHS
+# =========================
+PROJECT_DIR = Path(__file__).resolve().parents[2]
+DATA_DIR = Path(os.environ.get("COLD_SURGE_BASEDIR", PROJECT_DIR / "data")).resolve()
+FIG_ROOT = Path(os.environ.get("COLD_SURGE_FIGDIR", PROJECT_DIR / "figs")).resolve()
+
+# =========================
+# EVENT CONFIGURATION
+# =========================
+EVENT_TAG = os.environ.get("EVENT_TAG", "202507_20250718_20250722")
+EVENT_MONTH = EVENT_TAG.split("_")[0]
+
+EVENT_DIR = (
+    DATA_DIR
+    / "events_small_dense"
+    / EVENT_MONTH
+    / EVENT_TAG
+)
+
+PLEV_GRIB = EVENT_DIR / f"eventsS_pressure_{EVENT_TAG}.grib"
+SFC_GRIB = EVENT_DIR / f"eventsS_surface_{EVENT_TAG}.grib"
+
+FIG_DIR = FIG_ROOT / "era5"
+FIG_DIR.mkdir(parents=True, exist_ok=True)
+OUTFILE = FIG_DIR / "plot_300hPa_Z_wind.png"
+
+
+
+# =========================
 # I/O
 # =========================
-FIGDIR  = '/home/mdeoto/investigacion/mountain_ridge/figs/era5'
-os.makedirs(FIGDIR, exist_ok=True)
-OUTFILE = os.path.join(FIGDIR, "plot_300hPa_Z_wind.png")
+FIG_DIR = FIG_ROOT / "era5"
+FIG_DIR.mkdir(parents=True, exist_ok=True)
+
 
 # =========================
 # CONFIG
 # =========================
-DIRDATA   = str(Path(__file__).resolve().parents[2] / "data") + "/events_small_dense/202507/202507_20250718_20250722"
-PLEV_GRIB = f"{DIRDATA}/eventsS_pressure_202507_20250718_20250722.grib"
+
+
 
 TIDX   = int(os.environ.get("TIDX", "0"))      # índice temporal
 LABEL_STEP_DEG = float(os.environ.get("LABEL_STEP_DEG", "2.0"))  # raleo de etiquetas de viento (si se quisieran)
